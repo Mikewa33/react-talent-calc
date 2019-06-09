@@ -17,7 +17,7 @@ class TalentTree extends React.Component {
     return {
       backgroundImage: `url("${background}")`,
       backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover',
+      backgroundSize: "322px 526px",
       backgroundPosition: 'center',
     }
   }
