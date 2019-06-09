@@ -165,7 +165,7 @@ class Skill extends React.Component {
         <div className="skill-icon" onClick={() => {this.onIncreaseSkillRank() }} onContextMenu={(event) => { this.onDecreaseSkillRank(event) }}onMouseEnter={() => { this.onShowTooltip() }} onMouseLeave = {() =>{ this.onHideTooltip() }}>
           <img src={ this.skillIcon() } className="skill-icon-image" alt={this.props.skill.name} />
         </div>
-        <span className="skill-rank">{this.props.skill.currentRank}/{this.props.skill.maxRank}</span>
+        <span className="skill-rank" onClick={() => {this.onIncreaseSkillRank() }} onContextMenu={(event) => { this.onDecreaseSkillRank(event) }}onMouseEnter={() => { this.onShowTooltip() }} onMouseLeave = {() =>{ this.onHideTooltip() }}>{this.props.skill.currentRank}/{this.props.skill.maxRank}</span>
         <Tooltip 
           skill = { this.props.skill } 
           showTooltip = { this.state.showTooltip }
