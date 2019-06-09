@@ -14,7 +14,15 @@ class ClassList extends React.Component {
   }
 
   resetTalentTreeProp = (talentTrees) => {
-    this.setState({talentTrees: talentTrees, availableSkillPoints: 51, requiredLevel: 0, talentPath: []})
+    let skillPoints = 51;
+    let reqLevel = 9;
+
+    talentTrees.forEach((tree) => {
+      skillPoints = skillPoints - tree.skillPoints;
+      reqLevel = reqLevel + tree.skillPoints;
+    });
+    reqLevel = reqLevel === 9 ? 0 : reqLevel;
+    this.setState({talentTrees: talentTrees, availableSkillPoints: skillPoints, requiredLevel: reqLevel})
   }
 
   resetTalentTree = (treeId) => {
@@ -39,11 +47,8 @@ class ClassList extends React.Component {
         currentTrees[i] = tree;
       }
     });
-    console.log("RESET")
     if (changeMade) {
-      console.log(currentTrees);
       this.setState({talentTrees: currentTrees});
-      console.log(currentTrees)
     }
   }
 
@@ -87,7 +92,7 @@ class ClassList extends React.Component {
     let changeMade = false;
 
     currentTrees.forEach((tree, i) => {
-			if(tree.id == treeId){
+			if(tree.id === treeId){
         changeMade = true;
         tree.skills[skillId].currentRank = tree.skills[skillId].currentRank + 1;
       }
@@ -105,7 +110,7 @@ class ClassList extends React.Component {
     let changeMade = false;
 
     currentTrees.forEach((tree, i) => {
-			if(tree.id == treeId){
+			if(tree.id === treeId){
         changeMade = true;
         tree.skills[skillId].currentRank = tree.skills[skillId].currentRank - 1;
       }
@@ -123,13 +128,13 @@ class ClassList extends React.Component {
     let changeMade = false;
 
     currentTrees.forEach((tree, i) => {
-			if(tree.id == treeId){
+			if(tree.id === treeId){
         tree.skills.forEach((skill, j) => {
           if(skill.requirements){ 
             if(skill.requirements.specPoints && skill.requirements.skill) {
               if(tree.skillPoints >= skill.requirements.specPoints) {
                 let requiredSkill = tree.skills[skill.requirements.skill.id]
-                if(requiredSkill.currentRank == skill.requirements.skill.skillPoints){
+                if(requiredSkill.currentRank === skill.requirements.skill.skillPoints){
 									skill.enabled = true;
 								} else{
 									skill.enabled = false;
@@ -149,7 +154,7 @@ class ClassList extends React.Component {
             }
             else if(skill.requirements.skill){
               let requiredSkill = tree.skills[skill.requirements.skill.id];
-              if(requiredSkill.currentRank == skill.requirements.skill.skillPoints){
+              if(requiredSkill.currentRank === skill.requirements.skill.skillPoints){
                 skill.enabled = true;
               } else{
                 skill.enabled = false;
@@ -177,7 +182,7 @@ class ClassList extends React.Component {
       }
     });
 
-    if(typeof talentPathItemIndex == 'number'){
+    if(typeof talentPathItemIndex === 'number'){
       currentPath.splice(talentPathItemIndex, 1)
       this.setState({talentPath: currentPath})
     }
@@ -188,7 +193,7 @@ class ClassList extends React.Component {
     let changeMade = false;
 
     currentPath.forEach((talentPathItem, i) => {
-			if(talentPathItem.treeId == treeId){
+			if(talentPathItem.treeId === treeId){
         changeMade = true;
 				currentPath.splice(i, 1);
       }
@@ -231,7 +236,7 @@ class ClassList extends React.Component {
     let changeMade = false;
 
     currentTrees.forEach((tree, i) => {
-			if(tree.id == treeId){
+			if(tree.id === treeId){
         changeMade = true;
 				tree.skillPoints++;
       }
@@ -249,7 +254,7 @@ class ClassList extends React.Component {
     let changeMade = false;
 
     currentTrees.forEach((tree, i) => {
-			if(tree.id == treeId){
+			if(tree.id === treeId){
         changeMade = true;
 				tree.skillPoints--;
       }
@@ -267,7 +272,7 @@ class ClassList extends React.Component {
     let changeMade = false;
 
     currentTrees.forEach((tree, i) => {
-			if(tree.id == treeId){
+			if(tree.id === treeId){
         if(tier > tree.currentSkillTier) {
           changeMade = true;
           tree.currentSkillTier = tier;
@@ -289,14 +294,14 @@ class ClassList extends React.Component {
     let tierSkillPoints = 0;
 
     currentTrees.forEach((tree, i) => {
-			if(tree.id == treeId){
+			if(tree.id === treeId){
         tree.skills.forEach((skill) => {
-          if(skill.position[0] == tier){
+          if(skill.position[0] === tier){
 						tierSkillPoints = tierSkillPoints + skill.currentRank;
 					}
         })
 
-        if (tierSkillPoints == 0) {
+        if (tierSkillPoints === 0) {
           changeMade = true;
           tree.currentSkillTier = tier - 1;
         }
@@ -337,7 +342,6 @@ class ClassList extends React.Component {
     })
   }
 
-  // START HERE AND LOOK TO ADD TALENT TREE
   render () {
     return (
       <div>
@@ -347,7 +351,7 @@ class ClassList extends React.Component {
             <p className="talent-info-stat">Required level: {this.state.requiredLevel}</p>
           </div>
         </div>
-        <div className={ this.state.requiredLevel == 60 ? "talent-trees is-max-level" : "talent-trees" }>
+        <div className={ this.state.requiredLevel === 60 ? "talent-trees is-max-level" : "talent-trees" }>
           { this.talentTrees() }
         </div>
       </div>

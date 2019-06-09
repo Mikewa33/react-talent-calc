@@ -16,24 +16,38 @@ class Skill extends React.Component {
   }
 
   isValidDecrease = () => {
-    if(this.props.skill.currentRank == 0){
+    if(this.props.skill.currentRank === 0){
       return false;
     }
     if(this.hasAdjacentSkillRequirement()){
       return false;
     }
-    if(this.props.skill.requirements) {
-      if(this.props.skill.requirements.specPoints < this.props.tree.skillPoints - 1){
-        return true;
-      }
-    }
-    if(this.props.skill.position[0] == this.props.currentSkillTier){
+    if (this.props.skill.position[0] === this.props.currentSkillTier) {
       return true;
     }
-    else {
-      return false;
-    } 
+
+    let isValid = true;
+    let firstTierTotal = 0;
+    let secondPlusTierTotal = 0;
+    this.props.tree.skills.forEach((skill) => {
       
+      if (skill.requirements)
+      {
+        if (skill.requirements.specPoints >= this.props.tree.skillPoints - 1 && skill.currentRank !== 0 ) {
+          secondPlusTierTotal = secondPlusTierTotal + skill.currentRank;
+          isValid = false;
+        }
+      }
+      else if(skill.position[0] === 1){
+        firstTierTotal = firstTierTotal + skill.currentRank;
+      }
+    });
+
+    if(secondPlusTierTotal > 0 && firstTierTotal <= 5) {
+      return false;
+    }
+
+    return isValid 
   }
 
   onIncreaseSkillRank = () => {
@@ -136,18 +150,18 @@ class Skill extends React.Component {
 						cssClassName = [],
 						arrowYDistance = this.props.skill.position[0] - requiredSkill.position[0],
             arrowXDistance = this.props.skill.position[1] - requiredSkill.position[1];
-      if(arrowYDistance == 1){
+      if(arrowYDistance === 1){
         cssClassName = "down-arrow";
-      } else if(arrowYDistance == 2){
+      } else if(arrowYDistance === 2){
         cssClassName = "down-arrow medium-arrow";
-      } else if(arrowYDistance == 3){
+      } else if(arrowYDistance === 3){
         cssClassName = "down-arrow large-arrow";
       }
 
-      if(arrowXDistance == 1){
+      if(arrowXDistance === 1){
         cssClassName = "side-arrow";
       }
-      if(arrowYDistance == 1 && arrowXDistance == 1){
+      if(arrowYDistance === 1 && arrowXDistance === 1){
         cssClassName = "corner-arrow";
       }
       return cssClassName;

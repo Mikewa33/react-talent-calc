@@ -1,5 +1,4 @@
 import React from 'react';
-import Mobile from "./../helpers/Mobile";
 
 class Tooltip extends React.Component {
 
@@ -30,7 +29,7 @@ class Tooltip extends React.Component {
   }
 
   hasNextRank = () => {
-    if (this.props.skill.currentRank > 0 && this.props.skill.currentRank != this.props.skill.maxRank) {
+    if (this.props.skill.currentRank > 0 && this.props.skill.currentRank !== this.props.skill.maxRank) {
       return (
         <div>
           <p className="tooltip-next-rank">Next rank:</p>

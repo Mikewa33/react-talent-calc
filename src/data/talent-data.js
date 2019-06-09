@@ -1,4 +1,4 @@
-{
+export default {
 	"currentClass": 0,
 	"constants": {
 		"imageDirectory": "images/",
