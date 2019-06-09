@@ -56,7 +56,7 @@ class TalentTree extends React.Component {
         <div className="talent-tree" style={this.getTreeBackgroundImage()}>
           { this.mapSkills() }
         </div>
-        <span class="talent-tree-reset" onClick={() => { this.props.resetTalentTree(this.props.tree.id) }}> Reset</span>
+        <span className="talent-tree-reset" onClick={() => { this.props.resetTalentTree(this.props.tree.id) }}> Reset</span>
       </div>
     )
   }

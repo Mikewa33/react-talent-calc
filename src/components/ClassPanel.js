@@ -341,10 +341,10 @@ class ClassList extends React.Component {
   render () {
     return (
       <div>
-        <div class="talent-toolbar">
-          <div class="talent-info">
-            <p class="talent-info-stat">Skill points: {this.state.availableSkillPoints}</p>
-            <p class="talent-info-stat">Required level: {this.state.requiredLevel}</p>
+        <div className="talent-toolbar">
+          <div className="talent-info">
+            <p className="talent-info-stat">Skill points: {this.state.availableSkillPoints}</p>
+            <p className="talent-info-stat">Required level: {this.state.requiredLevel}</p>
           </div>
         </div>
         <div className={ this.state.requiredLevel == 60 ? "talent-trees is-max-level" : "talent-trees" }>
