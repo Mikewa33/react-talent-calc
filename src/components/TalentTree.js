@@ -10,10 +10,12 @@ class TalentTree extends React.Component {
     }
   }
 
+  // Figure out the background image for the talent tree
   getTreeBackgroundImage = () => {
     let classType = this.props.classType.toLowerCase();
     let tree = this.props.tree.name.toLowerCase().replace(/ /g,'-');
-    let background = require(`./../images/backgrounds/background-${classType}-${tree}.jpg`)
+    let background = require(`./../images/backgrounds/background-${classType}-${tree}.jpg`);
+
     return {
       backgroundImage: `url("${background}")`,
       backgroundRepeat: 'no-repeat',
@@ -22,6 +24,7 @@ class TalentTree extends React.Component {
     }
   }
 
+  // Map the skills for render
   mapSkills = () => {
     return this.props.tree.skills.map((skill) => {
       return <Skill 

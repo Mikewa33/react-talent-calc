@@ -9,6 +9,7 @@ class ClassList extends React.Component {
     }
   }
 
+  // New class was selected pass up event to show change made
   isClassSelected() {
     if (this.props.classType.name === this.props.currentClass.name) {
       return (

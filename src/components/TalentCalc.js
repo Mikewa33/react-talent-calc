@@ -19,10 +19,8 @@ class TalentCalc extends React.Component {
     }
   }
 
-  componentDidMount() {
-
-  }
-
+  // Used to reset the class panel and tell it which class talent trees to use
+  // Not the best way to do it but we want Class Panel to track the tress not the whole calc
   onClassListChange = (id) => {
     this.classPanelRef.current.resetTalentTreeProp(this.state.classes[id].talentTrees);
     this.setState({ currentClass: this.state.classes[id]})
@@ -41,7 +39,8 @@ class TalentCalc extends React.Component {
   }
 
   render() {
-    return (<div className="TalentCalc">
+    return (
+    <div className="TalentCalc">
       <div>
         <img src={logo} className="logo" alt="logo"/>
 			  <h1 className="main-title">Talent Planner</h1>
@@ -55,7 +54,6 @@ class TalentCalc extends React.Component {
           talentTrees={this.state.currentClass.talentTrees} 
         />
       </div>
-
     </div>)
   };
 }

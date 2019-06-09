@@ -9,6 +9,7 @@ class Tooltip extends React.Component {
     }
   }
 
+  // Check if there is a requirment amount and include it in the tool tip
   skillReqCheck = () => {
     if (this.props.skill.requirements && !this.props.skill.enabled) {
       var requirement = null;
@@ -28,6 +29,7 @@ class Tooltip extends React.Component {
     }
   }
 
+  // See if it has a next rank or is at max rank
   hasNextRank = () => {
     if (this.props.skill.currentRank > 0 && this.props.skill.currentRank !== this.props.skill.maxRank) {
       return (
@@ -38,6 +40,7 @@ class Tooltip extends React.Component {
     }
   }
 
+  // Check if you can decrase the skill
   isValidDecrease = () => {
     if (this.props.isValidDecrease) {
       if (this.props.isMobile()) {
