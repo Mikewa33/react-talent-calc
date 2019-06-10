@@ -5,6 +5,16 @@
 	display: block;
 }
 
+.add {
+	position: fixed; 
+	font-size: 55px; 
+	left: 40px;
+	top: 20px;
+	&:hover {
+		cursor: pointer;
+	}
+}
+
 .main-title{
 	text-align: center;
 	font-size: 10px;

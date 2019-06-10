@@ -14,16 +14,25 @@ class App extends React.Component {
     }
   }
 
-  /* DOESNT WORK CAUSE ALL DATA IS SHARED CURRENTLY addTalentCacl = () => {
-    /let newTalentCalc = this.state.talentCalc;
+  addTalentCacl = () => {
+    let newTalentCalc = this.state.talentCalc;
     newTalentCalc.push(<TalentCalc key={this.state.talentCalc.length}/>)
     this.setState({talentCalc: newTalentCalc})
-  }*/
+  }
+
+  mapTalentCalc = () => {
+    return this.state.talentCalc.map((talentCalc, i) => {
+      return <div key={i}>{talentCalc}</div>
+    })
+  }
 
   render() {
     return (<div className="App">
       <div>
-       {this.state.talentCalc}
+        <div className="add" onClick ={() => {this.addTalentCacl() }}>
+          +
+        </div>
+       {this.mapTalentCalc()}
       </div>
 
     </div>)

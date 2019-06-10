@@ -3,7 +3,7 @@ import "./../css/global.scss"
 import ClassList from './../components/ClassList';
 import ClassPanel from './../components/ClassPanel';
 
-import data from '../data/talent-data.js';
+import TalentData from './../data/talent-data.js';
 import logo from "./../images/wow-classic-logo.png"
 
 class TalentCalc extends React.Component {
@@ -12,10 +12,12 @@ class TalentCalc extends React.Component {
 
   constructor(props) {
     super(props);
+    // React caches imports. This would cause all the trees to share data. This gets a fresh import
+    let loadData = JSON.parse(JSON.stringify(TalentData));
     this.state = {
-      classes: data.classes,
-      constants: data.constants,
-      currentClass: data.classes[0]
+      classes: loadData.classes,
+      constants: loadData.constants,
+      currentClass: loadData.classes[0]
     }
   }
 
