@@ -374,11 +374,6 @@ class ClassList extends React.Component {
   }
 
   render () {
-    history.push({
-      pathname: "/",
-      search: `?trees=${JSON.stringify(this.state.talentTrees)}`,
-      state: {talentTrees: this.state.talentTrees}
-    });
     return (
       <div>
         <div className="talent-toolbar">
