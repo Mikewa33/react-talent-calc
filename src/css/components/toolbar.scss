@@ -1,15 +1,35 @@
 .talent-toolbar{
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 }
 
 .talent-info{
-	margin: 0 0 30px;
+	margin: 0 0 15px;
 	border: 1px solid #6b6b6c;
 	border-radius: 5px;
 	border-top-color: #c7c9cb;
 	border-bottom-color: #46474a;
-	padding: 15px;
+	padding: 15px 42px
+}
+
+.talent-remove {
+	/*margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+	top: -57px;
+	position: relative;*/
+	font-size: 16px;
+	height: 42px;
+  background: black;
+  border: 1px solid;
+  padding: 10px 18px;
+  text-align: center;
+  vertical-align: middle;
+	border-radius: 8px;
+	&:hover {
+		cursor: pointer;
+	}
+	
 }
 
 .talent-info-stat{

@@ -11,13 +11,24 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      talentCalc: [<TalentCalc key={0}/>]
+      talentCalc: [
+        <TalentCalc 
+          key={0} 
+          treeKey = {0}
+          removeCalc = {this.removeCalc}
+        />
+      ]
     }
   }
 
   addTalentCacl = () => {
     let newTalentCalc = this.state.talentCalc;
-    newTalentCalc.push(<TalentCalc key={this.state.talentCalc.length}/>)
+    newTalentCalc.push(
+    <TalentCalc 
+      key = {this.state.talentCalc.length} 
+      treeKey = {this.state.talentCalc.length}
+      removeCalc = {this.removeCalc}
+    />)
     this.setState({talentCalc: newTalentCalc})
   }
 
@@ -25,6 +36,12 @@ class App extends React.Component {
     return this.state.talentCalc.map((talentCalc, i) => {
       return <div key={i}>{talentCalc}</div>
     })
+  }
+
+  removeCalc = (treeKey) => {
+    let newTalentCalc = this.state.talentCalc;
+    newTalentCalc.splice(treeKey, 1)
+    this.setState({talentCalc: newTalentCalc});
   }
 
   render() {

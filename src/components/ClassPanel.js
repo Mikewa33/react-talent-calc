@@ -1,10 +1,14 @@
 import React from 'react';
 import TalentTree from './TalentTree';
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
 
 class ClassList extends React.Component {
 
   constructor(props) {
     super(props);
+    
     this.state = {
       availableSkillPoints: 51,
       requiredLevel: 0,
@@ -370,6 +374,11 @@ class ClassList extends React.Component {
   }
 
   render () {
+    history.push({
+      pathname: "/",
+      search: `?trees=${JSON.stringify(this.state.talentTrees)}`,
+      state: {talentTrees: this.state.talentTrees}
+    });
     return (
       <div>
         <div className="talent-toolbar">
@@ -377,7 +386,11 @@ class ClassList extends React.Component {
             <p className="talent-info-stat">Skill points: {this.state.availableSkillPoints}</p>
             <p className="talent-info-stat">Required level: {this.state.requiredLevel}</p>
           </div>
+          <div className="talent-remove" onClick = {() => { this.props.removeCalc(this.props.treeKey )}}>
+            Remove Calculator
+          </div>
         </div>
+        
         <div className={ this.state.requiredLevel === 60 ? "talent-trees is-max-level" : "talent-trees" }>
           { this.talentTrees() }
         </div>

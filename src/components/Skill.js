@@ -187,7 +187,6 @@ class Skill extends React.Component {
   }
 
   render () {
-    console.log(this.props.tree.id)
     let classes = "skill " + this.skillRequirementArrow()
     classes = classes + (this.props.skill.enabled ? " is-enabled" : "")
     classes = classes + (this.props.skill.currentRank ===  this.props.skill.maxRank ? " is-max-rank" : "")

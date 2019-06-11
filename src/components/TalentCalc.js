@@ -50,10 +50,11 @@ class TalentCalc extends React.Component {
         </div>
         <div className="talent-section">
           <ClassPanel 
-            ref={this.classPanelRef}
-            constants={this.state.constants} 
-            classType={this.state.currentClass.name} 
-            talentTrees={this.state.currentClass.talentTrees} 
+            ref = {this.classPanelRef}
+            constants = {this.state.constants} 
+            classType = {this.state.currentClass.name} 
+            talentTrees = {this.state.currentClass.talentTrees} 
+            removeCalc = {this.props.removeCalc}
           />
         </div>
       </div>
