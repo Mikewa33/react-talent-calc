@@ -55,11 +55,14 @@ class TalentTree extends React.Component {
   render () {
     return (
       <div className="talent-tree-panel">
-        <h3 className="talent-tree-title">{this.props.tree.name} <span className="talent-tree-points">({this.props.tree.skillPoints})</span></h3>
+        <div className="talent-tree-header">
+          <h3 className="talent-tree-title">{this.props.tree.name} <span className="talent-tree-points">({this.props.tree.skillPoints})</span></h3>
+          <span className="talent-tree-title reset" onClick={() => { this.props.resetTalentTree(this.props.tree.id) }}> Reset</span>
+        </div>
         <div className="talent-tree" style={this.getTreeBackgroundImage()}>
           { this.mapSkills() }
         </div>
-        <span className="talent-tree-reset" onClick={() => { this.props.resetTalentTree(this.props.tree.id) }}> Reset</span>
+        
       </div>
     )
   }

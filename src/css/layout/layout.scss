@@ -6,10 +6,15 @@
 }
 
 .add {
-	position: fixed; 
-	font-size: 55px; 
+	position: fixed;
+	font-size: 25px;
 	left: 40px;
 	top: 20px;
+	border: 1px solid;
+	padding: 10px;
+	border-radius: 5px;
+	background: black;
+	z-index: 10;
 	&:hover {
 		cursor: pointer;
 	}

@@ -22,7 +22,6 @@ class ClassList extends React.Component {
       skillPoints = skillPoints - tree.skillPoints;
       reqLevel = reqLevel + tree.skillPoints;
     });
-
     reqLevel = reqLevel === 9 ? 0 : reqLevel;
     this.setState({talentTrees: talentTrees, availableSkillPoints: skillPoints, requiredLevel: reqLevel})
   }

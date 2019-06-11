@@ -1,30 +1,50 @@
-.talent-trees{ 
+.TalentCalc {
+ margin-top: 15px;
+}
+
+.talent-section {
+	display: inline-block;
+	width: 85%;
+}
+
+.talent-tree-header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.reset {
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+.talent-trees { 
 	display: flex;
 	justify-content: space-around;
 	flex-wrap: wrap;
 }
-.talent-tree-panel{
+.talent-tree-panel {
 	max-width: 350px;
 	margin: 0 0 20px;
 	text-align: center;
 }
-.talent-tree{ 
+.talent-tree { 
 	padding: 5px;
 	display: grid;
 	grid-template-columns: repeat(4, 75px);
 	grid-template-rows: repeat(7, 1fr);
 	border: 1px solid #6b6b6c;
 	border-radius: 5px;
-	border-top-color: #c7c9cb;
-	border-bottom-color: #46474a;
+	border-color: #c7c9cb;
 }
 .talent-tree-title{ 
+	background: black;
 	text-align:center;
 	font-size: 18px;
 	padding: 10px 20px;
 	display: inline-block;
-	border: 1px solid #666;
-	border-top-color: #c7c9cb;
+	border: 1px solid black;
+	border-color: #c7c9cb;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	border-bottom: 0;
@@ -44,6 +64,9 @@
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 	border-top: 0;
+	&:hover {
+		cursor: pointer;
+	}
 }
 .talent-tree-reset:hover{
 	color: #efefef;

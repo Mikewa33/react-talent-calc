@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 
 import TalentCalc from './components/TalentCalc';
+import logo from "./images/wow-classic-logo.png"
 
 class App extends React.Component {
 
@@ -28,9 +29,11 @@ class App extends React.Component {
 
   render() {
     return (<div className="App">
+      <img src={logo} className="logo" alt="logo"/>
+			<h1 className="main-title">Talent Planner</h1>
       <div>
         <div className="add" onClick ={() => {this.addTalentCacl() }}>
-          +
+          Add Another Calculator
         </div>
        {this.mapTalentCalc()}
       </div>

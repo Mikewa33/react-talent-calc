@@ -4,7 +4,6 @@ import ClassList from './../components/ClassList';
 import ClassPanel from './../components/ClassPanel';
 
 import TalentData from './../data/talent-data.js';
-import logo from "./../images/wow-classic-logo.png"
 
 class TalentCalc extends React.Component {
 
@@ -43,19 +42,22 @@ class TalentCalc extends React.Component {
   render() {
     return (
     <div className="TalentCalc">
-      <div>
-        <img src={logo} className="logo" alt="logo"/>
-			  <h1 className="main-title">Talent Planner</h1>
-        <ul className="class-list">
-          { this.mapClassList() }
-        </ul>
-        <ClassPanel 
-          ref={this.classPanelRef}
-          constants={this.state.constants} 
-          classType={this.state.currentClass.name} 
-          talentTrees={this.state.currentClass.talentTrees} 
-        />
+      <div>  
+        <div className="class-buttons">
+          <ul className="class-list">
+            { this.mapClassList() }
+          </ul>
+        </div>
+        <div className="talent-section">
+          <ClassPanel 
+            ref={this.classPanelRef}
+            constants={this.state.constants} 
+            classType={this.state.currentClass.name} 
+            talentTrees={this.state.currentClass.talentTrees} 
+          />
+        </div>
       </div>
+      <hr />
     </div>)
   };
 }
