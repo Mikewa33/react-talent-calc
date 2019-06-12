@@ -13,8 +13,9 @@ class ClassPanel extends React.Component {
     
     this.state = {
       availableSkillPoints: 51,
+      isInEditMode: false,
       requiredLevel: 0,
-      talentPath: { "classType": this.props.classType, "talents": []},
+      talentPath: {"title": "Skill Tree", "classType": this.props.classType, "talents": []},
       talentTrees: this.props.talentTrees
     }
   }
@@ -29,7 +30,6 @@ class ClassPanel extends React.Component {
 
     if (parsed.talents) {
       sharedData = JSON.parse(parsed.talents);
-      
 
       sharedData.talents.forEach((tree) => {
         currentTrees.forEach((currentTree, i) => {
@@ -53,7 +53,7 @@ class ClassPanel extends React.Component {
       })
     } 
     else {
-      sharedData = {"classType": this.props.classType, "talents": []};
+      sharedData = {"title": "Skill Tree", "classType": this.props.classType, "talents": []};
     }
 
     if (requiredLevel === 9) {
@@ -92,7 +92,7 @@ class ClassPanel extends React.Component {
     });
 
     reqLevel = reqLevel === 9 ? 0 : reqLevel;
-    this.setState({talentTrees: talentTrees, availableSkillPoints: skillPoints, requiredLevel: reqLevel, talentPath: { "classType": currentClass.name, "talents": []}})
+    this.setState({talentTrees: talentTrees, availableSkillPoints: skillPoints, requiredLevel: reqLevel, talentPath: {"title": "Skill Tree", "classType": currentClass.name, "talents": []}})
   }
 
   // Called when the user selects to reset a single Tree of the tree
@@ -496,6 +496,35 @@ class ClassPanel extends React.Component {
     })
   }
 
+  updateTitle = (event) => {
+    let currentPath = this.state.talentPath;
+    currentPath.title = event.target.value;
+
+    this.setState({ talentPath: currentPath})
+    history.push({
+      pathname: '/',
+      search: `?talents=${JSON.stringify(this.state.talentPath)}`
+    });
+  }
+
+  changeEditMode = () => {
+    this.setState({ isInEditMode: !this.state.isInEditMode})
+  }
+
+  renderTitleEdit = () => {
+    if (this.state.isInEditMode) {
+      return (<div>
+        <input type="text" onChange = {(event) => {this.updateTitle(event)}} defaultValue={this.state.talentPath.title} />
+        <button onClick = {() => {this.changeEditMode()}}>X</button>
+      </div>)
+    }
+    else {
+      return (<div onClick = {() => {this.changeEditMode()}}>
+        { this.state.talentPath.title }
+      </div>)
+    }
+  }
+
   render () {
     return (
       <div>
@@ -504,6 +533,7 @@ class ClassPanel extends React.Component {
             <p className="talent-info-stat">Skill points: {this.state.availableSkillPoints}</p>
             <p className="talent-info-stat">Required level: {this.state.requiredLevel}</p>
           </div>
+          { this.renderTitleEdit() }
           <div className="talent-actions">
             <div className="talent-shared" onClick = {() => { this.copyUrl() }}>
               Share Talent Trees
