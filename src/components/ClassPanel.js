@@ -24,27 +24,30 @@ class ClassPanel extends React.Component {
     let availableSkillPoints = 51;
     let requiredLevel = 9;
     let parsed = queryString.parse(history.location.search);
-    let sharedData = JSON.parse(parsed.talents);
-    let currentTrees = this.state.talentTrees;
+    
+    if (parsed.talents) {
+      let sharedData = JSON.parse(parsed.talents);
+      let currentTrees = this.state.talentTrees;
 
-    sharedData.talents.forEach((tree) => {
-      currentTrees.forEach((currentTree, i) => {
-        if (currentTree.id === tree.id) {
-          currentTree.skills.forEach((skill, j) => {
-            tree.skills.forEach((savedSkill) => {
-              if (skill.id === savedSkill.id) {
-                skill.currentRank = savedSkill.rank;
-                availableSkillPoints = availableSkillPoints - savedSkill.rank;
-                requiredLevel = requiredLevel + savedSkill.rank;
-                currentTree.skillPoints = currentTree.skillPoints + savedSkill.rank;
-                currentTree.skills[j] = skill;
-              }
+      sharedData.talents.forEach((tree) => {
+        currentTrees.forEach((currentTree, i) => {
+          if (currentTree.id === tree.id) {
+            currentTree.skills.forEach((skill, j) => {
+              tree.skills.forEach((savedSkill) => {
+                if (skill.id === savedSkill.id) {
+                  skill.currentRank = savedSkill.rank;
+                  availableSkillPoints = availableSkillPoints - savedSkill.rank;
+                  requiredLevel = requiredLevel + savedSkill.rank;
+                  currentTree.skillPoints = currentTree.skillPoints + savedSkill.rank;
+                  currentTree.skills[j] = skill;
+                }
+              })
             })
-          })
-          currentTrees[i] = currentTree
-        }
+            currentTrees[i] = currentTree
+          }
+        })
       })
-    })
+    }
 
     if (requiredLevel === 9) {
       requiredLevel = 0;
