@@ -17,20 +17,22 @@ class TalentCalc extends React.Component {
   constructor(props) {
     super(props);
     let parsed = queryString.parse(history.location.search);
-    // Parse json in the params
-    let talents = JSON.parse(parsed.talents);
     let loadData = JSON.parse(JSON.stringify(TalentData));
-    let currentClassId;
-
-    if (talents.classType) {
-      loadData.classes.forEach(setClass => {
-        if (setClass.name === talents.classType) {
-          currentClassId = setClass.id
-        }
-      });
-    }
-    else {
-      currentClassId = 0
+    let currentClassId = 0;
+    // Parse json in the params
+    if (parsed.talents) {
+      let talents = JSON.parse(parsed.talents);
+      
+      if (talents.classType) {
+        loadData.classes.forEach(setClass => {
+          if (setClass.name === talents.classType) {
+            currentClassId = setClass.id
+          }
+        });
+      }
+      else {
+        currentClassId = 0
+      }
     }
 
     this.state = {
