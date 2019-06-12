@@ -38,9 +38,11 @@ class ClassPanel extends React.Component {
               tree.skills.forEach((savedSkill) => {
                 if (skill.id === savedSkill.id) {
                   skill.currentRank = savedSkill.rank;
+                  skill.enabled = savedSkill.rank > 0 ? true : false;
                   availableSkillPoints = availableSkillPoints - savedSkill.rank;
                   requiredLevel = requiredLevel + savedSkill.rank;
                   currentTree.skillPoints = currentTree.skillPoints + savedSkill.rank;
+                  
                   currentTree.skills[j] = skill;
                 }
               })
