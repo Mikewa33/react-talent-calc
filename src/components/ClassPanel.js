@@ -25,8 +25,8 @@ class ClassPanel extends React.Component {
     let requiredLevel = 9;
     let parsed = queryString.parse(history.location.search);
     let currentTrees = this.state.talentTrees;
-    let sharedData = [];
-    
+    let sharedData;
+
     if (parsed.talents) {
       sharedData = JSON.parse(parsed.talents);
       
@@ -49,6 +49,9 @@ class ClassPanel extends React.Component {
           }
         })
       })
+    } 
+    else {
+      sharedData = {"classType": this.props.classType, "talents": []};
     }
 
     if (requiredLevel === 9) {
