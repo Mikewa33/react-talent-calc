@@ -33,7 +33,19 @@
 	&:hover {
 		cursor: pointer;
 	}
-	
+}
+
+.talent-title {
+	font-size: 16px;
+	input {
+		font-size: 16px;
+	}
+	button {
+		font-size: 17px;
+	}
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 .talent-shared {

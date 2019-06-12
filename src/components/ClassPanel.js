@@ -513,13 +513,13 @@ class ClassPanel extends React.Component {
 
   renderTitleEdit = () => {
     if (this.state.isInEditMode) {
-      return (<div>
+      return (<div className="talent-title">
         <input type="text" onChange = {(event) => {this.updateTitle(event)}} defaultValue={this.state.talentPath.title} />
         <button onClick = {() => {this.changeEditMode()}}>X</button>
       </div>)
     }
     else {
-      return (<div onClick = {() => {this.changeEditMode()}}>
+      return (<div className="talent-title" onClick = {() => {this.changeEditMode()}}>
         { this.state.talentPath.title }
       </div>)
     }
