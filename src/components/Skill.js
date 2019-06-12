@@ -59,7 +59,7 @@ class Skill extends React.Component {
         this.props.upSkill(this.props.tree.id, this.props.skill.id)
         this.props.decreaseAvailableSkillPoints();
         this.props.increaseRequiredLevel();
-        this.props.addToTalentPath(this.props.tree.id, this.props.skill.id, this.props.skill.skillIcon);
+        this.props.addToTalentPath(this.props.tree.id, this.props.skill);
         this.props.increaseTreeSkillPoints(this.props.tree.id);
         this.props.increaseCurrentSkillTier(this.props.tree.id, this.props.skill.position[0]);
         this.props.checkSkillRequirements(this.props.tree.id);
@@ -75,7 +75,7 @@ class Skill extends React.Component {
       this.props.downSkill(this.props.tree.id, this.props.skill.id)
       this.props.increaseAvailableSkillPoints(1);
       this.props.decreaseRequiredLevel(1);
-      this.props.removeSkillFromTalentPath(this.props.tree.id, this.props.skill.id);
+      this.props.removeSkillFromTalentPath(this.props.tree.id, this.props.skill);
       this.props.decreaseTreeSkillPoints(this.props.tree.id);
       this.props.decreaseCurrentSkillTier(this.props.tree.id, this.props.skill.position[0]);
       this.props.checkSkillRequirements(this.props.tree.id);

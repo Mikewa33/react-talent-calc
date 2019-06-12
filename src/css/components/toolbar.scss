@@ -12,6 +12,10 @@
 	padding: 15px 42px
 }
 
+.talent-actions {
+	display: inherit;
+}
+
 .talent-remove {
 	/*margin-bottom: 20px;
   display: flex;
@@ -30,6 +34,21 @@
 		cursor: pointer;
 	}
 	
+}
+
+.talent-shared {
+	font-size: 16px;
+	height: 42px;
+  background: black;
+  border: 1px solid;
+  padding: 10px 18px;
+  text-align: center;
+  vertical-align: middle;
+	border-radius: 8px;
+	margin-right: 10px;
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 .talent-info-stat{

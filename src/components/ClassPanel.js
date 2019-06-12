@@ -1,10 +1,12 @@
 import React from 'react';
 import TalentTree from './TalentTree';
+
 import { createBrowserHistory } from 'history';
 
+const queryString = require('query-string');
 const history = createBrowserHistory();
 
-class ClassList extends React.Component {
+class ClassPanel extends React.Component {
 
   constructor(props) {
     super(props);
@@ -12,13 +14,65 @@ class ClassList extends React.Component {
     this.state = {
       availableSkillPoints: 51,
       requiredLevel: 0,
-      talentPath: [],
+      talentPath: { "classType": this.props.classType, "talents": []},
       talentTrees: this.props.talentTrees
     }
   }
 
+  componentDidMount() {
+    // Parse URL
+    let availableSkillPoints = 51;
+    let requiredLevel = 9;
+    let parsed = queryString.parse(history.location.search);
+    let sharedData = JSON.parse(parsed.talents);
+    let currentTrees = this.state.talentTrees;
+
+    sharedData.talents.forEach((tree) => {
+      currentTrees.forEach((currentTree, i) => {
+        if (currentTree.id === tree.id) {
+          currentTree.skills.forEach((skill, j) => {
+            tree.skills.forEach((savedSkill) => {
+              if (skill.id === savedSkill.id) {
+                skill.currentRank = savedSkill.rank;
+                availableSkillPoints = availableSkillPoints - savedSkill.rank;
+                requiredLevel = requiredLevel + savedSkill.rank;
+                currentTree.skillPoints = currentTree.skillPoints + savedSkill.rank;
+                currentTree.skills[j] = skill;
+              }
+            })
+          })
+          currentTrees[i] = currentTree
+        }
+      })
+    })
+
+    if (requiredLevel === 9) {
+      requiredLevel = 0;
+    }
+
+    this.setState({talentTrees: currentTrees, availableSkillPoints: availableSkillPoints, requiredLevel: requiredLevel, talentPath: sharedData})
+    
+  }
+
+  copyUrl = () => {
+    let url = window.location.href;
+    // This is a hack to get the url copy working. We make a fake text area and populate it with the url and remove it after the copy
+    var textarea = document.createElement('textarea');
+    textarea.textContent = url;
+    document.body.appendChild(textarea);
+    var selection = document.getSelection();
+    var range = document.createRange();
+    range.selectNode(textarea);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    document.execCommand("copy");
+
+    document.body.removeChild(textarea);
+  }
+
   // Called from Talent Calc and is used to make sure skillPoints and reqLevel are correct for the new Trees
-  resetTalentTreeProp = (talentTrees) => {
+  resetTalentTreeProp = (talentTrees, currentClass) => {
     let skillPoints = 51;
     let reqLevel = 9;
 
@@ -26,8 +80,9 @@ class ClassList extends React.Component {
       skillPoints = skillPoints - tree.skillPoints;
       reqLevel = reqLevel + tree.skillPoints;
     });
+
     reqLevel = reqLevel === 9 ? 0 : reqLevel;
-    this.setState({talentTrees: talentTrees, availableSkillPoints: skillPoints, requiredLevel: reqLevel})
+    this.setState({talentTrees: talentTrees, availableSkillPoints: skillPoints, requiredLevel: reqLevel, talentPath: { "classType": currentClass.name, "talents": []}})
   }
 
   // Called when the user selects to reset a single Tree of the tree
@@ -57,6 +112,7 @@ class ClassList extends React.Component {
 
     if (changeMade) {
       this.setState({talentTrees: currentTrees});
+      this.removeTreeFromTalentPath(treeId);
     }
   }
 
@@ -95,44 +151,101 @@ class ClassList extends React.Component {
   }
 
   // Add to the users selected path. This path is across all classes and trees
-  addToTalentPath = (treeId, skillId, skillIcon) => {
+  addToTalentPath = (treeId, skill) => {
     let currentPath = this.state.talentPath;
-    currentPath.push({treeId, skillId, skillIcon, faded : false})
-    this.setState({talentPath: currentPath})
+    let treeNeeded;
+    let treeIndex;
+    let foundTree = false;
+    currentPath.talents.forEach((tree, i) => {
+      if (tree.id === treeId) {
+        foundTree = true;
+        treeNeeded = tree;
+        treeIndex = i;
+      }
+    })
+
+    if (foundTree) {
+      let skillNotFound = true;
+      treeNeeded.skills.forEach((treeSkill, i) => {
+        if (treeSkill.id === skill.id) {
+          skillNotFound = false;
+          treeSkill.rank = skill.currentRank;
+          treeNeeded.skills[i] = treeSkill;
+        }
+      })
+      
+      if (skillNotFound) {
+        treeNeeded.skills.push({id: skill.id, rank: skill.currentRank})
+      }
+      currentPath.talents[treeIndex] = treeNeeded;
+    }
+    else {
+      currentPath.talents.push({ id: treeId, skills: [{id: skill.id, rank: skill.currentRank}]})
+    }
+    
+    this.setState({talentPath: currentPath});
+    history.push({
+      pathname: '/',
+      search: `?talents=${JSON.stringify(this.state.talentPath)}`
+    });
   }
 
   // Remove a skill from the users selected skills
-  removeSkillFromTalentPath = (treeId, skillId) => {
+  removeSkillFromTalentPath = (treeId, skill) => {
     let currentPath = this.state.talentPath;
-    let talentPathItemIndex = "";
+    let treeNeeded;
+    let treeIndex;
+    let foundTree = false;
 
-    currentPath.forEach((talentPathItem, i) => {
-      if(talentPathItem.treeId === treeId && talentPathItem.skillId === skillId){
-        talentPathItemIndex = i;
+    currentPath.talents.forEach((tree, i) => {
+      if (tree.id === treeId) {
+        foundTree = true;
+        treeNeeded = tree;
+        treeIndex = i;
       }
     });
 
-    if (typeof talentPathItemIndex === 'number') {
-      currentPath.splice(talentPathItemIndex, 1)
-      this.setState({talentPath: currentPath})
+    if (foundTree) {
+      treeNeeded.skills.forEach((treeSkill, i) => {
+        if (treeSkill.id === skill.id) {
+          if (skill.currentRank === 0)
+          {
+            treeNeeded.skills.splice(i, 1)
+          }
+          else {
+            treeSkill.rank = skill.currentRank;
+            treeNeeded.skills[i] = treeSkill;
+          }
+        }
+      })
+
+      currentPath.talents[treeIndex] = treeNeeded;
     }
+
+    this.setState({talentPath: currentPath});
+    history.push({
+      pathname: '/',
+      search: `?talents=${JSON.stringify(this.state.talentPath)}`
+    });
   }
 
   // Remove a whole tree from the selected pass this is called on a reset
   removeTreeFromTalentPath = (treeId) => {
     let currentPath = this.state.talentPath;
-    let changeMade = false;
+    let treeIndex;
 
-    currentPath.forEach((talentPathItem, i) => {
-			if (talentPathItem.treeId === treeId) {
-        changeMade = true;
-				currentPath.splice(i, 1);
+    currentPath.talents.forEach((tree, i) => {
+      if (tree.id === treeId) {
+        treeIndex = i;
       }
     });
-    
-    if (changeMade) {
-      this.setState({talentPath: currentPath});
-    }
+
+    currentPath.talents.splice(treeIndex, 1);
+    this.setState({talentPath: currentPath});
+    history.push({
+      pathname: '/',
+      search: `?talents=${JSON.stringify(this.state.talentPath)}`
+    });
   }
 
   // Skill was selected update the tree skill count
@@ -381,8 +494,13 @@ class ClassList extends React.Component {
             <p className="talent-info-stat">Skill points: {this.state.availableSkillPoints}</p>
             <p className="talent-info-stat">Required level: {this.state.requiredLevel}</p>
           </div>
-          <div className="talent-remove" onClick = {() => { this.props.removeCalc(this.props.treeKey )}}>
-            Remove Calculator
+          <div className="talent-actions">
+            <div className="talent-shared" onClick = {() => { this.copyUrl() }}>
+              Share Talent Trees
+            </div>
+            <div className="talent-remove" onClick = {() => { this.props.removeCalc(this.props.treeKey )}}>
+              Remove Calculator
+            </div>
           </div>
         </div>
         
@@ -395,4 +513,4 @@ class ClassList extends React.Component {
 
 }
 
-export default ClassList;
+export default ClassPanel;
