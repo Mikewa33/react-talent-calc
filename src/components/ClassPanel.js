@@ -24,10 +24,12 @@ class ClassPanel extends React.Component {
     let availableSkillPoints = 51;
     let requiredLevel = 9;
     let parsed = queryString.parse(history.location.search);
+    let currentTrees = this.state.talentTrees;
+    let sharedData = [];
     
     if (parsed.talents) {
-      let sharedData = JSON.parse(parsed.talents);
-      let currentTrees = this.state.talentTrees;
+      sharedData = JSON.parse(parsed.talents);
+      
 
       sharedData.talents.forEach((tree) => {
         currentTrees.forEach((currentTree, i) => {
