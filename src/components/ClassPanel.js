@@ -65,6 +65,10 @@ class ClassPanel extends React.Component {
   }
 
   copyUrl = () => {
+    history.push({
+      pathname: '/',
+      search: `?talents=${JSON.stringify(this.state.talentPath)}`
+    });
     let url = window.location.href;
     // This is a hack to get the url copy working. We make a fake text area and populate it with the url and remove it after the copy
     var textarea = document.createElement('textarea');
