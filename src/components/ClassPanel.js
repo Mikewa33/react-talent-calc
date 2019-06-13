@@ -47,6 +47,7 @@ class ClassPanel extends React.Component {
                 }
               })
             })
+            currentTree.currentSkillTier = Math.floor(currentTree.skillPoints/5) + 1
             currentTrees[i] = currentTree
           }
         })
@@ -61,7 +62,9 @@ class ClassPanel extends React.Component {
     }
 
     this.setState({talentTrees: currentTrees, availableSkillPoints: availableSkillPoints, requiredLevel: requiredLevel, talentPath: sharedData})
-    
+    this.checkSkillRequirements(0)
+    this.checkSkillRequirements(1)
+    this.checkSkillRequirements(2)
   }
 
   copyUrl = () => {

@@ -16,6 +16,7 @@ class App extends React.Component {
           key={0} 
           treeKey = {0}
           removeCalc = {this.removeCalc}
+          hide = {false}
         />
       ]
     }
@@ -28,6 +29,7 @@ class App extends React.Component {
       key = {this.state.talentCalc.length} 
       treeKey = {this.state.talentCalc.length}
       removeCalc = {this.removeCalc}
+      hide = {false}
     />)
     this.setState({talentCalc: newTalentCalc})
   }
@@ -40,7 +42,12 @@ class App extends React.Component {
 
   removeCalc = (treeKey) => {
     let newTalentCalc = this.state.talentCalc;
-    newTalentCalc.splice(treeKey, 1)
+    newTalentCalc[treeKey] = <TalentCalc 
+                              key = { newTalentCalc[treeKey].treeKey} 
+                              treeKey = {newTalentCalc[treeKey].treeKey}
+                              removeCalc = {this.removeCalc}
+                              hide = {true}
+                            />
     this.setState({talentCalc: newTalentCalc});
   }
 

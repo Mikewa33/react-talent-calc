@@ -62,27 +62,35 @@ class TalentCalc extends React.Component {
   }
 
   render() {
-    return (
-    <div className="TalentCalc">
-      <div>  
-        <div className="class-buttons">
-          <ul className="class-list">
-            { this.mapClassList() }
-          </ul>
+    console.log(this.props)
+    if (!this.props.hide) {
+      return (
+        <div className="TalentCalc">
+          <div>  
+            <div className="class-buttons">
+              <ul className="class-list">
+                { this.mapClassList() }
+              </ul>
+            </div>
+            <div className="talent-section">
+              <ClassPanel 
+                ref = {this.classPanelRef}
+                constants = {this.state.constants} 
+                classType = {this.state.currentClass.name} 
+                talentTrees = {this.state.currentClass.talentTrees} 
+                removeCalc = {this.props.removeCalc}
+                treeKey = {this.props.treeKey}
+              />
+            </div>
+          </div>
+          <hr />
         </div>
-        <div className="talent-section">
-          <ClassPanel 
-            ref = {this.classPanelRef}
-            constants = {this.state.constants} 
-            classType = {this.state.currentClass.name} 
-            talentTrees = {this.state.currentClass.talentTrees} 
-            removeCalc = {this.props.removeCalc}
-          />
-        </div>
-      </div>
-      <hr />
-    </div>)
-  };
+      )
+    }
+    else {
+      return <div></div>
+    }
+  }
 }
 
 export default TalentCalc;
