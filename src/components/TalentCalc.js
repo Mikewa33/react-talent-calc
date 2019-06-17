@@ -62,7 +62,6 @@ class TalentCalc extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     if (!this.props.hide) {
       return (
         <div className="TalentCalc">

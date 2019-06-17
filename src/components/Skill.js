@@ -26,17 +26,26 @@ class Skill extends React.Component {
     if (this.props.skill.position[0] === this.props.currentSkillTier) {
       return true;
     }
+    if (this.props.skill.requirements) {
+      if (this.props.skill.requirements.skill) {
+        if (this.props.skill.requirements.skill.skillPoints !==  this.props.tree.skills[this.props.skill.requirements.skill.id].currentRank) {
+        return false;
+        }
+      }
+    }
 
     let isValid = true;
     let firstTierTotal = 0;
     let secondPlusTierTotal = 0;
+    let tiers = [];
 
     // This checks to see if it can deselected and won't break any requirements of lower tier skills
     this.props.tree.skills.forEach((skill) => {
-      
+      tiers[skill.position[0] - 1] = (tiers[skill.position[0] - 1] || 0) + skill.currentRank
       if (skill.requirements) {
-        if (skill.requirements.specPoints >= this.props.tree.skillPoints - 1 && skill.currentRank !== 0 ) {
+        if (skill.requirements.specPoints >= this.props.tree.skillPoints - tiers[skill.position[0] - 1] && skill.currentRank !== 0 ) {
           secondPlusTierTotal = secondPlusTierTotal + skill.currentRank;
+          console.log("FALSE HERE")
           isValid = false;
         }
       }
@@ -45,7 +54,7 @@ class Skill extends React.Component {
       }
     });
 
-    if(secondPlusTierTotal > 0 && firstTierTotal <= 5) {
+    if(secondPlusTierTotal > 0 && firstTierTotal < 5) {
       return false;
     }
 
