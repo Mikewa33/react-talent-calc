@@ -45,7 +45,6 @@ class Skill extends React.Component {
       if (skill.requirements) {
         if (skill.requirements.specPoints >= this.props.tree.skillPoints - tiers[skill.position[0] - 1] && skill.currentRank !== 0 ) {
           secondPlusTierTotal = secondPlusTierTotal + skill.currentRank;
-          console.log("FALSE HERE")
           isValid = false;
         }
       }
